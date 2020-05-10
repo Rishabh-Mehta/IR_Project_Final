@@ -1,0 +1,64 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron sticky-top" >
+    <form action="{% url 'app:search' %}" method="POST">
+        {% csrf_token %}        
+        <div id="search_bar_div" class="form-group">
+            <input type="text" class="form-control " name="search_query" placeholder="Search here" id="search_query_input" value="{{form_in}}">
+            <div class="input-group-append">
+                <button type="submit" id="search_button" class="btn btn-primary  " >Search</button>
+             </div>
+        </div>
+        
+    </form>
+
+</div>
+{% if  q_exp %}
+<div class="card">
+    <div class="card-body">
+       <form action="{% url 'app:search' %}?search_q_exp={{q_exp}}" method="POST" value="{{q_exp}}">
+           {% csrf_token %}
+           <p>Related Search <button type="submit" id="search_button" class="btn btn-link" >{{q_exp}}</button> </p> 
+       </form>
+    </div>
+</div>
+{% endif %}
+
+<br />
+<br />
+{% if result_count %}
+<div class="row">
+   <p class="text-muted">Found {{result_count}} matching results </p>{% if result_count > 30%} <p class="card">Showing top 30</p>{% endif %}
+</div>
+<div id="result_area" >
+   {% for url,match,unmatch,score in list_zip %}
+        <div class=" list-group">
+            <div class="list-group-item">
+                <a href="{{url}}" target="_blank"class="btn  list-group-item-action ">{{url}}</a> 
+                <div class="container">
+                    <div class="row"> 
+                        <ul class="list-inline">
+                            <li class="list-inline-item">{% if match %}<p class="text-muted"><small> Matched Words {{ match}}</small></p>{%endif%}</li>
+                            <li class="list-inline-item">{% if unmatch %}<p class="text-muted "><small>Must Include :<del>{{unmatch}}</del></small></p>{%endif%}</li>
+                            <!--<li class="list-inline-item"> <p><small>Score : {{score}}</small></p></li>-->
+                        </ul>
+                    </div>
+                </div>
+             </div>
+        </div>
+     {% endfor %}    
+</div>
+
+
+
+
+{% elif result_count or query %}
+<div class="row">
+<p class="lead text-danger">Your Search <strong>{{query}} </strong> did not match any documents</p>
+</div>
+{%  endif %}
+
+{% endblock %}
+
