@@ -42,6 +42,8 @@ Navigate to ..\IR_Web App\IR_Project_Final\IR_Project_Final and run the followin
 
 then open 127.0.0.1:8000 (or) the url displayed in console after running the above command 
 
+
+
 ### Usage 
 
 Once the program is executed , a web page is displayed with a search bar.User can input a query and click search , the results will be displayed.
@@ -60,6 +62,7 @@ The execution for crawler , pre processing and pagerank will consume almost 2 hr
 files before and then the application can be run in console with query as command line argument
 > python query.py "Query"
 
-[https://irwebapp-heroku.herokuapp.com/]
+## Author
+Rishabh Mehta
 
 
